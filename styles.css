@@ -21,7 +21,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 0.4rem 0.7rem;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   margin-bottom: 10px;
@@ -67,7 +67,7 @@ h1 {
 .checklist-item input[type="checkbox"]:checked ~ .small-button {
   width: 30px;
   height: 30px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   background: #999;
   color: #fff;
 }
@@ -75,10 +75,10 @@ h1 {
 /* ✅ Maak het hele blok grijs bij afvinken */
 .checklist-item.checked {
   background-color: #e6e6e6;
-  padding: 0.7rem;
+  padding: 0.3rem 0.6rem;
 }
 
-/* Afbeeldingen netjes onderaan */
+/* Onderste afbeeldingen correct gestyled */
 .screenshot {
   text-align: center;
   margin-top: 2rem;
