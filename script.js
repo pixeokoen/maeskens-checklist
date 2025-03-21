@@ -26,28 +26,22 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // Save checkbox state to Supabase
-    async function saveChecklist(event) {
-        const checkbox = event.target;
-        const id = checkbox.id;
-        const checked = checkbox.checked;
+async function saveChecklist(event) {
+  const checkbox = event.target;
+  const id = checkbox.id;
+  const checked = checkbox.checked; // boolean
 
-        const { error } = await supabaseClient
-            .from("checklist")
-            .upsert([{ id_check: id, checked }]);
+  const { error } = await supabaseClient
+    .from("checklist")
+    .upsert([{ id_check: id, checked: checked }]); // expliciet boolean
 
-        if (error) {
-            console.error("Error saving checklist:", error);
-        } else {
-            console.log(`Saved: ${id} -> ${checked}`);
-        }
+  if (error) {
+    console.error("Error saving checklist:", error);
+  } else {
+    console.log(`Saved: ${id} -> ${checked}`);
+  }
+}
 
-        const item = checkbox.closest(".checklist-item");
-        if (checked) {
-            item.classList.add("checked");
-        } else {
-            item.classList.remove("checked");
-        }
-    }
 
     // Attach event listeners
     document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
