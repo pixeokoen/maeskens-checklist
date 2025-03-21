@@ -24,15 +24,17 @@ async function loadChecklist() {
 async function saveChecklist() {
     const checkboxes = document.querySelectorAll("input[type='checkbox']");
     const checklistState = Array.from(checkboxes).map(c => c.checked);
-    
-    // Send data to GitHub Actions
+
     fetch("https://api.github.com/repos/" + GITHUB_USERNAME + "/" + REPO_NAME + "/actions/workflows/update-checklist.yml/dispatches", {
         method: "POST",
         headers: {
-            "Authorization": `Bearer ${GH_ACCESS_TOKEN}`,
+            "Authorization": "Bearer YOUR_GITHUB_PERSONAL_ACCESS_TOKEN",
             "Accept": "application/vnd.github.v3+json"
         },
-        body: JSON.stringify({ ref: "main", inputs: { checklist: JSON.stringify(checklistState) } })
+        body: JSON.stringify({
+            ref: "main",
+            inputs: { checklist: JSON.stringify(checklistState) }
+        })
     });
 }
 
