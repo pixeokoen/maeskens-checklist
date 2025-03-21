@@ -28,33 +28,33 @@ h1 {
   transition: all 0.3s ease-in-out;
 }
 
-/* Als checkbox is aangevinkt: maak hele blok grijs, tekst kleiner en doorstrepen */
-.checklist-item input[type="checkbox"]:checked ~ * {
-  background: #e0e0e0; /* Lichtgrijs blok */
-  padding: 0.5rem; /* Kleinere padding */
-  border-radius: 0.4rem; /* Afgeronde hoeken */
+/* Grotere checkbox bij actieve items */
+.checklist-item input[type="checkbox"] {
+  transform: scale(1.4); /* Groter maken */
+  margin-right: 1rem;
 }
 
-/* Doorstreepte tekst, kleiner en grijzer */
+/* Volledige blok lichtgrijs maken als afgevinkt */
+.checklist-item input[type="checkbox"]:checked ~ * {
+  background: #e0e0e0;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+}
+
+/* Doorgestreepte tekst, grijzer en kleiner */
 .checklist-item input[type="checkbox"]:checked ~ label {
   text-decoration: line-through;
-  color: #777; /* Donkergrijs */
-  font-size: 0.85rem; /* Kleiner maken */
+  color: #777;
+  font-size: 0.85rem;
   opacity: 0.7;
 }
 
-/* Spring-knop aanpassen als checkbox is aangevinkt */
-.checklist-item input[type="checkbox"]:checked ~ .small-button {
-  background: #a0a0a0; /* Grijze knop */
-  color: #fff;
-}
-
-/* Kleinere spring-knop */
-.small-button {
-  width: 30px;
-  height: 30px;
-  font-size: 0.9rem;
-  background: #d1d1d1; /* Lichtgrijs */
+/* Spring-knoppen rechts uitlijnen en aanpassen als afgevinkt */
+.checklist-item .small-button {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+  background: #007BFF;
   color: white;
   border-radius: 5px;
   text-align: center;
@@ -62,15 +62,36 @@ h1 {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  margin-left: auto;
+  margin-left: auto; /* Zorgt ervoor dat de knop helemaal rechts staat */
 }
 
-/* Hover effect voor de kleine knop */
+/* Kleinere grijze knop bij afgevinkt */
+.checklist-item input[type="checkbox"]:checked ~ .small-button {
+  width: 30px;
+  height: 30px;
+  font-size: 0.9rem;
+  background: #a0a0a0;
+  color: white;
+}
+
+/* Hover effect voor spring-knoppen */
 .small-button:hover {
-  background: #999;
+  background: #0056b3;
 }
 
-/* Navigation buttons */
+.checklist-item input[type="checkbox"]:checked ~ .small-button:hover {
+  background: #888;
+}
+
+/* Onderste afbeeldingen goed schalen */
+.screenshot img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigatie knoppen */
 .nav-button {
   display: flex;
   align-items: center;
