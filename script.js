@@ -27,19 +27,34 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Save checkbox state to Supabase
 async function saveChecklist(event) {
-  const checkbox = event.target;
-  const id = checkbox.id;
-  const checked = checkbox.checked; // boolean
+    const checkbox = event.target;
+    const id = checkbox.id;
+    const checked = checkbox.checked; // boolean
 
-  const { error } = await supabaseClient
-    .from("checklist")
-    .upsert([{ id_check: id, checked: checked }]); // expliciet boolean
+    if (checked) {
+        // ✅ Insert of update als het aangevinkt is
+        const { error } = await supabaseClient
+            .from("checklist")
+            .upsert([{ id_check: id, checked: true }]); 
 
-  if (error) {
-    console.error("Error saving checklist:", error);
-  } else {
-    console.log(`Saved: ${id} -> ${checked}`);
-  }
+        if (error) {
+            console.error("Error saving checklist:", error);
+        } else {
+            console.log(`Saved: ${id} -> checked`);
+        }
+    } else {
+        // ❌ Verwijder als het uitgevinkt wordt
+        const { error } = await supabaseClient
+            .from("checklist")
+            .delete()
+            .eq("id_check", id);
+
+        if (error) {
+            console.error("Error deleting checklist item:", error);
+        } else {
+            console.log(`Deleted: ${id}`);
+        }
+    }
 }
 
 
