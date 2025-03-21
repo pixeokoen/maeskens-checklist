@@ -4,9 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checklist App</title>
+    <script src="script.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            max-width: 800px;
+            margin: auto;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist-item {
+            background: white;
+            margin-bottom: 10px;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.1rem;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            transform: scale(1.5);
+            margin-right: 1rem;
+        }
+
+        .save-message {
+            text-align: center;
+            color: green;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Checklist App</h1>
-    <p>GitHub Pages is now enabled!</p>
+    <p class="save-message" id="saveMessage">✔ Checklist saved!</p>
+    <ul class="checklist" id="checklist">
+        <li class="checklist-item"><input type="checkbox" id="item-1"> <label for="item-1">Task 1</label></li>
+        <li class="checklist-item"><input type="checkbox" id="item-2"> <label for="item-2">Task 2</label></li>
+        <li class="checklist-item"><input type="checkbox" id="item-3"> <label for="item-3">Task 3</label></li>
+    </ul>
 </body>
 </html>
