@@ -2,6 +2,7 @@ name: Update Checklist JSON
 on:
   repository_dispatch:
     types: [update-checklist]
+
 jobs:
   update-json:
     runs-on: ubuntu-latest
@@ -20,3 +21,5 @@ jobs:
           git add checklist.json
           git commit -m "Auto-update checklist" || echo "No changes to commit"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
