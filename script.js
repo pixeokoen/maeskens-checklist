@@ -1,51 +1,46 @@
-const GITHUB_USERNAME = "pixeokoen";  // Replace with your actual username
-const REPO_NAME = "maeskens-checklist";  // Replace with your repository name
-const WORKFLOW_FILE = "update-checklist.yml";  // The GitHub Actions file
+// Replace with your actual Supabase credentials
+const SUPABASE_URL = "https://hnqzjitjruoboxodznux.supabase.co"; // Example: https://xyzcompany.supabase.co
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhucXpqaXRqcnVvYm94b2R6bnV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NTkyNTEsImV4cCI6MjA1ODEzNTI1MX0.bkasKkiRo1eoJS-tzcz7ug9AXfQ-MJ-9J2bhUQq7LHQ"; 
 
-// Load checklist state from GitHub
+// Initialize Supabase client
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Load checklist state from Supabase
 async function loadChecklist() {
-    try {
-        const response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/checklist.json`);
-        if (!response.ok) throw new Error("Failed to load checklist.");
-        
-        const fileContent = await response.json();
-        document.querySelectorAll("input[type='checkbox']").forEach((checkbox, index) => {
-            checkbox.checked = fileContent[index] || false;
-        });
-    } catch (error) {
+    const { data, error } = await supabase.from("checklist").select("*");
+    if (error) {
         console.error("Error loading checklist:", error);
+        return;
     }
+
+    // Apply state to checkboxes
+    data.forEach(item => {
+        const checkbox = document.getElementById(item.id_check);
+        if (checkbox) checkbox.checked = item.checked;
+    });
 }
 
-// Save checklist state by triggering GitHub Actions
-async function saveChecklist() {
-    const checkboxes = document.querySelectorAll("input[type='checkbox']");
-    const checklistState = Array.from(checkboxes).map(c => c.checked);
+// Save checklist state to Supabase
+async function saveChecklist(event) {
+    const checkbox = event.target;
+    const id = checkbox.id;
+    const checked = checkbox.checked;
 
-    try {
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/actions/workflows/${WORKFLOW_FILE}/dispatches`, {
-            method: "POST",
-            headers: {
-                "Accept": "application/vnd.github.v3+json",
-                "Authorization": `Bearer GITHUB_PAT_HERE`  // ⚠️ This should be set in GitHub Actions, NOT here.
-            },
-            body: JSON.stringify({
-                ref: "main",
-                inputs: { checklist: JSON.stringify(checklistState) }
-            })
-        });
+    const { error } = await supabase
+        .from("checklist")
+        .upsert([{ id_check: id, checked }]); 
 
-        if (!response.ok) throw new Error("Failed to trigger GitHub Actions.");
-        console.log("GitHub Actions triggered successfully!");
-    } catch (error) {
+    if (error) {
         console.error("Error saving checklist:", error);
+    } else {
+        console.log(`Saved: ${id} -> ${checked}`);
     }
 }
 
-// Attach event listeners to checkboxes
+// Attach event listeners
 document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
     checkbox.addEventListener("change", saveChecklist);
 });
 
-// Load checklist when the page loads
+// Load checklist on page load
 loadChecklist();
