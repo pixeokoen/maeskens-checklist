@@ -39,7 +39,7 @@ h1 {
 }
 
 /* Checked effect: Strikethrough, grey, smaller */
-.checklist-item input[type="checkbox"]:checked + label {
+.checklist-item input[type="checkbox"]:checked ~ label {
   text-decoration: line-through;
   color: grey;
   font-size: 0.85rem;
