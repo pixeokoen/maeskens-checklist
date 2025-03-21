@@ -78,6 +78,17 @@ h1 {
   padding: 0.4rem 0.4rem; /* Zelfde padding behouden */
 }
 
+/* ✅ Als checkbox is aangevinkt, krijgt de hele checklist-item een grijze achtergrond */
+.checklist-item:has(input[type="checkbox"]:checked) {
+  background-color: #e0e0e0 !important;
+}
+
+/* ✅ Als checkbox is uitgevinkt, blijft de achtergrond wit */
+.checklist-item {
+  background-color: white;
+  transition: background-color 0.3s ease-in-out;
+}
+
 /* Onderste screenshots */
 .screenshot {
   text-align: center;
