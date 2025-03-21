@@ -28,32 +28,33 @@ h1 {
   transition: all 0.3s ease-in-out;
 }
 
-/* When checked: make the entire block light grey */
-.checklist-item input[type="checkbox"]:checked ~ label,
-.checklist-item input[type="checkbox"]:checked ~ .small-button {
-  text-decoration: line-through;
-  color: grey;
-  font-size: 0.85rem;
-  opacity: 0.6;
+/* Als checkbox is aangevinkt: maak hele blok grijs, tekst kleiner en doorstrepen */
+.checklist-item input[type="checkbox"]:checked ~ * {
+  background: #e0e0e0; /* Lichtgrijs blok */
+  padding: 0.5rem; /* Kleinere padding */
+  border-radius: 0.4rem; /* Afgeronde hoeken */
 }
 
-.checklist-item input[type="checkbox"]:checked ~ a {
-  background: #a0a0a0; /* Grey button */
+/* Doorstreepte tekst, kleiner en grijzer */
+.checklist-item input[type="checkbox"]:checked ~ label {
+  text-decoration: line-through;
+  color: #777; /* Donkergrijs */
+  font-size: 0.85rem; /* Kleiner maken */
+  opacity: 0.7;
+}
+
+/* Spring-knop aanpassen als checkbox is aangevinkt */
+.checklist-item input[type="checkbox"]:checked ~ .small-button {
+  background: #a0a0a0; /* Grijze knop */
   color: #fff;
 }
 
-/* Reduce padding & background color */
-.checklist-item input[type="checkbox"]:checked ~ * {
-  background-color: #f0f0f0; /* Light grey */
-  padding: 0.5rem;
-}
-
-/* Make the small button smaller and grey */
+/* Kleinere spring-knop */
 .small-button {
   width: 30px;
   height: 30px;
-  font-size: 1rem;
-  background: #a0a0a0; /* Grey */
+  font-size: 0.9rem;
+  background: #d1d1d1; /* Lichtgrijs */
   color: white;
   border-radius: 5px;
   text-align: center;
@@ -64,11 +65,10 @@ h1 {
   margin-left: auto;
 }
 
-/* Hover effect for button */
+/* Hover effect voor de kleine knop */
 .small-button:hover {
-  background: #888;
+  background: #999;
 }
-
 
 /* Navigation buttons */
 .nav-button {
@@ -89,11 +89,4 @@ h1 {
 
 .nav-button:hover {
   background: #0056b3;
-}
-
-.small-button {
-  width: 40px;
-  height: 40px;
-  font-size: 1.2rem;
-  margin-left: auto;
 }
