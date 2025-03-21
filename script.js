@@ -1,15 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    // Ensure Supabase is loaded
-    if (typeof supabase === "undefined") {
-        console.error("Supabase is not loaded. Check the script order in index.html.");
-        return;
-    }
-
-    // Replace with your actual Supabase credentials
-    const SUPABASE_URL = "https://hnqzjitjruoboxodznux.supabase.co"; 
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhucXpqaXRqcnVvYm94b2R6bnV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NTkyNTEsImV4cCI6MjA1ODEzNTI1MX0.bkasKkiRo1eoJS-tzcz7ug9AXfQ-MJ-9J2bhUQq7LHQ"; 
-
-    // Initialize Supabase client
+    // Supabase config
+    const SUPABASE_URL = "https://hnqzjitjruoboxodznux.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhucXpqaXRqcnVvYm94b2R6bnV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1NTkyNTEsImV4cCI6MjA1ODEzNTI1MX0.bkasKkiRo1eoJS-tzcz7ug9AXfQ-MJ-9J2bhUQq7LHQ";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Load checklist state from Supabase
@@ -20,14 +12,20 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
-        // Apply state to checkboxes
         data.forEach(item => {
             const checkbox = document.getElementById(item.id_check);
-            if (checkbox) checkbox.checked = item.checked;
+            if (checkbox) {
+                checkbox.checked = item.checked;
+
+                const block = checkbox.closest(".checklist-item");
+                if (item.checked && block) {
+                    block.classList.add("checked");
+                }
+            }
         });
     }
 
-    // Save checklist state to Supabase
+    // Save checkbox state to Supabase
     async function saveChecklist(event) {
         const checkbox = event.target;
         const id = checkbox.id;
@@ -35,12 +33,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const { error } = await supabaseClient
             .from("checklist")
-            .upsert([{ id_check: id, checked }]); 
+            .upsert([{ id_check: id, checked }]);
 
         if (error) {
             console.error("Error saving checklist:", error);
         } else {
             console.log(`Saved: ${id} -> ${checked}`);
+        }
+
+        const item = checkbox.closest(".checklist-item");
+        if (checked) {
+            item.classList.add("checked");
+        } else {
+            item.classList.remove("checked");
         }
     }
 
@@ -49,6 +54,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         checkbox.addEventListener("change", saveChecklist);
     });
 
-    // Load checklist on page load
+    // Load initial state
     loadChecklist();
 });
